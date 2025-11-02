@@ -1,14 +1,23 @@
 // REPLACE WHOLE FILE: /assets/mxd-affiliate.js
 (() => {
-  // FIND: BASES / merchant inference / default subs
-  const BASES = {"shopee": "https://go.isclix.com/deep_link/6838562378501577227/4751584435713464237?sub4=oneatweb", "tiki": "https://go.isclix.com/deep_link/6838562378501577227/4348614231480407268?sub4=oneatweb", "lazada": "https://go.isclix.com/deep_link/6838562378501577227/5127144557053758578?sub4=oneatweb"};
+  // ===== NXPHUONG — Affiliate Rewriter (AccessTrade) =====
+  // - BASES giữ sẵn sub4=oneatweb; code KHÔNG ép sub4 mặc định để tránh ghi đè.
+  // - Tự bắt merchant từ hostname (đã thêm tiki).
+  // - Dùng URLSearchParams để chống trùng param, đảm bảo giá trị cuối cùng hợp lệ.
+
+  const BASES = {
+    shopee: "https://go.isclix.com/deep_link/6838562378501577227/4751584435713464237?sub4=oneatweb",
+    tiki:   "https://go.isclix.com/deep_link/6838562378501577227/4348614231480407268?sub4=oneatweb",
+    lazada: "https://go.isclix.com/deep_link/6838562378501577227/5127144557053758578?sub4=oneatweb",
+  };
 
   const MERCHANT_FROM_HOST = (h) => {
     if (!h) return "";
     const host = h.toLowerCase();
     if (host.includes("shopee")) return "shopee";
     if (host.includes("lazada")) return "lazada";
-    if (host.includes("tiktok")) return "tiktok";
+    if (host.includes("tiktok")) return "tiktok";  // dự phòng
+    if (host.includes("tiki"))   return "tiki";     // 🔧 thêm tiki
     return "";
   };
 
@@ -34,67 +43,67 @@
       const m = img.src.match(/\/assets\/img\/products\/([^\/]+)\.webp/i);
       if (m) return m[1];
     }
-    // last resort: last path segment (may be noisy)
     try {
       const u = new URL(meta.getAttribute("href") || "#", location.origin);
       const segs = (u.pathname || "").split("/").filter(Boolean);
-      return segs.pop() || "";
+      return (segs.pop() || "").slice(0, 120);
     } catch { return ""; }
   };
 
   const buildSubs = (meta, card, merchant) => {
-    // Defaults (canonical): sub1=sku, sub2=merchant, sub3=tool, sub4=tuyetlethi
+    // Mặc định: KHÔNG đặt sub4 để giữ nguyên trong BASES (oneatweb).
     const dflt = {
       sub1: guessSku(meta, card),
       sub2: merchant || (meta.dataset.merchant || "").toLowerCase(),
       sub3: "tool",
-      sub4: "tuyetlethi",
+      // sub4: (bỏ trống)
     };
-    // Allow explicit overrides via data-sub*
     const subs = { ...dflt };
     ["sub1", "sub2", "sub3", "sub4"].forEach((k) => {
       const v = meta.dataset[k];
-      if (v) subs[k] = v;
+      if (v != null && v !== "") subs[k] = v;
     });
     return subs;
   };
 
   const deepLinkFor = (meta) => {
     const card = meta.closest?.(".product-card") || null;
-    let origin = meta.getAttribute("href") || "#";
+    const origin = meta.getAttribute("href") || "#";
     const originAbs = absUrl(origin);
     const merchant = pickMerchant(meta, originAbs);
     const base = BASES[merchant];
 
-    // If no base or origin already isclix => return origin untouched
+    // Không có base hoặc đã là isclix → trả nguyên.
     if (!base || isIsclix(originAbs)) return originAbs;
 
-    const glue = base.includes("?") ? "&" : "?";
-    const subs = buildSubs(meta, card, merchant);
+    // Dựng URL an toàn (không trùng param; giữ nguyên sub4 của base nếu không override).
+    const u = new URL(base);
+    u.searchParams.set("url", originAbs);
 
-    let url = `${base}${glue}url=${encodeURIComponent(originAbs)}`;
+    const subs = buildSubs(meta, card, merchant);
     Object.entries(subs).forEach(([k, v]) => {
-      if (v != null && v !== "") url += `&${k}=${encodeURIComponent(String(v))}`;
+      if (v != null && v !== "") u.searchParams.set(k, String(v));
     });
-    return url;
+
+    return u.toString();
   };
 
-  const sendGA = (meta) => {
+  const sendGA = (meta, merchant) => {
     try {
       if (typeof window.gtag === "function") {
         window.gtag("event", "aff_click", {
           event_category: "affiliate",
-          event_label: meta.dataset.merchant || "",
+          event_label: merchant || meta.dataset.merchant || "",
           value: Number(meta.dataset.price) || undefined,
-          merchant: meta.dataset.merchant || "",
-          sku: meta.dataset.sku || "",
+          merchant: merchant || meta.dataset.merchant || "",
+          sku: meta.dataset.sku || guessSku(meta, meta.closest?.(".product-card") || null),
         });
       }
     } catch {}
   };
 
   const resolveMeta = (card) => {
-    // Prefer explicit product-meta; fall back to first anchor
+    // Ưu tiên anchor “product-meta” theo chuẩn MXD
     return (
       card.querySelector("a.product-meta") ||
       card.querySelector("a[data-merchant]") ||
@@ -125,8 +134,8 @@
       const meta = card && resolveMeta(card);
       if (!meta) return;
       const finalUrl = deepLinkFor(meta);
-      btn.href = finalUrl;
-      sendGA(meta);
+      const merchant = (meta.dataset.merchant || "").toLowerCase();
+      sendGA(meta, merchant);
       ev.preventDefault();
       window.location.assign(finalUrl);
     });
