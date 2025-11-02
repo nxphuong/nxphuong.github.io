@@ -12,7 +12,7 @@ a{color:#6b4e16;text-decoration:none} a:hover{text-decoration:underline}
 .topbar .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
 .brand{font-weight:900;letter-spacing:.3px;color:var(--brand-700)}
 .topbar nav a{margin-left:16px;padding:6px 8px;border-radius:8px} .topbar nav a:hover{background:#fff1bf}
-.hero{background:url('/assets/og/hero-gold.webp') center/cover no-repeat, linear-gradient(180deg,#f6e7b1,#fff); position:relative}
+.hero{background:url('/assets/og/cover.webp') center/cover no-repeat, linear-gradient(180deg,#f6e7b1,#fff); position:relative}
 .hero .overlay{background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(0,0,0,.05));}
 .hero .wrap{display:flex;align-items:center;min-height:340px}
 .hero .card{background:rgba(255,255,255,.85);backdrop-filter:saturate(120%) blur(2px);border:1px solid var(--line);border-radius:16px;padding:18px;max-width:720px}
