@@ -1,2 +1,0 @@
-<!-- INSERT into sitemap.xml (or create sitemap-store.xml) -->
-<url><loc>https://nxphuong.github.io/store/thoi-trang.html</loc><lastmod>2025-10-29</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
