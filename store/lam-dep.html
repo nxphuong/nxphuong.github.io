@@ -1,10 +1,10 @@
 <!doctype html><html lang="vi"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Trang sức | NXPhuong</title>
-<meta name="description" content="Trang sức — Danh mục trên NXPhuong"/>
-<link rel="canonical" href="https://nxphuong.github.io/store/trang-suc.html"/><meta name="robots" content="index,follow"/>
-<meta property="og:title" content="Trang sức | NXPhuong"/><meta property="og:description" content="Danh mục sản phẩm Trang sức"/>
-<meta property="og:url" content="https://nxphuong.github.io/store/trang-suc.html"/>
+<title>Làm đẹp | NXPhuong</title>
+<meta name="description" content="Làm đẹp — Danh mục trên NXPhuong"/>
+<link rel="canonical" href="https://nxphuong.github.io/store/lam-dep.html"/><meta name="robots" content="index,follow"/>
+<meta property="og:title" content="Làm đẹp | NXPhuong"/><meta property="og:description" content="Danh mục sản phẩm Làm đẹp"/>
+<meta property="og:url" content="https://nxphuong.github.io/store/lam-dep.html"/>
 <meta property="og:image" content="https://nxphuong.github.io/assets/og/default-og.webp"/>
 <link rel="stylesheet" href="/assets/site.css"/>
 <script defer src="/assets/analytics.js"></script>
@@ -22,15 +22,15 @@
 </header>
 
 <div class="container">
-  <h1>Trang sức</h1>
+  <h1>Làm đẹp</h1>
   <div id="grid" class="product-grid"><p>Đang tải…</p></div>
 </div>
 
-<footer><div class="container"><small class="muted">Dữ liệu từ affiliates.json (category=trang-suc)</small></div></footer>
+<footer><div class="container"><small class="muted">Dữ liệu từ affiliates.json (category=lam-dep)</small></div></footer>
 
 <script>
 (async()=>{
-  const cat = "trang-suc";
+  const cat = "lam-dep";
   const res = await fetch('/assets/data/affiliates.json', {cache:'no-store'}).catch(()=>null);
   const list = res && res.ok ? await res.json() : [];
   const items = list.filter(x => (x.category||'') === cat && x.status !== false).slice(0, 40);
