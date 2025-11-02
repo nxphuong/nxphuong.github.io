@@ -1,11 +1,7 @@
 // REPLACE WHOLE FILE: /assets/mxd-affiliate.js
 (() => {
   // FIND: BASES / merchant inference / default subs
-  const BASES = {
-    shopee: "https://go.isclix.com/deep_link/6837055118319564314/4751584435713464237",
-    tiktok: "https://go.isclix.com/deep_link/6837055118319564314/6648523843406889655",
-    lazada: "https://go.isclix.com/deep_link/6837055118319564314/5369219770778085421",
-  };
+  const BASES = {"shopee": "https://go.isclix.com/deep_link/6838562378501577227/4751584435713464237?sub4=oneatweb", "tiki": "https://go.isclix.com/deep_link/6838562378501577227/4348614231480407268?sub4=oneatweb", "lazada": "https://go.isclix.com/deep_link/6838562378501577227/5127144557053758578?sub4=oneatweb"};
 
   const MERCHANT_FROM_HOST = (h) => {
     if (!h) return "";

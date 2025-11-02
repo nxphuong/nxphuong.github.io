@@ -2,7 +2,7 @@
 // MXD Canonical SW — HTML network-first; assets stale-while-revalidate;
 // data JSON (affiliates/top/prices) network-first with cache fallback.
 // FIND: MXD SW v2025-10-31-b01
-const VERSION = '2025-11-02-gold-v2.2';
+const VERSION = '2025-11-02-nxphuong-fix';
 const ASSET_CACHE = 'mxd-assets-' + VERSION;
 
 self.addEventListener('install', (e) => self.skipWaiting());
