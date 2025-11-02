@@ -1,65 +1,116 @@
-<!doctype html>
-<html lang="vi">
-<head>
+<!-- REPLACE WHOLE FILE: /g.html -->
+<!doctype html><html lang="vi"><head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Sản phẩm | NXP</title>
-  <meta id="desc" name="description" content="Trang sản phẩm."/>
-  <link id="canonical" rel="canonical" href="https://nxphuong.github.io/g.html"/>
-  <meta name="robots" content="index,follow"/>
-  <meta property="og:title" content="Sản phẩm | NXP"/>
-  <meta property="og:description" content="Trang sản phẩm."/>
-  <meta property="og:type" content="product"/>
-  <meta property="og:url" content="https://nxphuong.github.io/g.html"/>
-  <meta property="og:image" content="https://nxphuong.github.io/assets/img/products/placeholder.webp"/>
-  <script defer src="/assets/js/analytics.js"></script>
-  <script defer src="/assets/js/mxd-affiliate.js"></script>
+  <title>Sản phẩm | MXD</title>
+  <meta id="desc" name="description" content="Trang sản phẩm MXD. Vui lòng bật JavaScript."/>
+  <link id="canonical" rel="canonical" href="https://tuyetlethi83a.github.io/g.html"/>
+  <meta id="robots" name="robots" content="index,follow"/>
+  <meta property="og:title" content="Sản phẩm | MXD"/>
+  <meta id="ogdesc" property="og:description" content="Trang sản phẩm theo SKU từ affiliates.json"/>
+  <meta id="ogurl" property="og:url" content="https://tuyetlethi83a.github.io/g.html"/>
+  <meta id="ogimg" property="og:image" content="https://tuyetlethi83a.github.io/assets/og/default-og.webp"/>
   <link rel="stylesheet" href="/assets/site.css"/>
+  <script defer src="/assets/analytics.js"></script>
+  <script defer src="/assets/mxd-affiliate.js"></script>
 </head>
 <body>
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="/">Cửa hàng liên kết</a>
+    <nav>
+      <a href="/">Trang chủ</a>
+      <a href="/store.html">Cửa hàng</a>
+      <a href="/store/thoi-trang.html">Thời trang</a>
+      <a href="/store/my-pham.html">Mỹ phẩm</a>
+      <a href="/store/me-va-be.html">Mẹ & Bé</a>
+      <a href="/lien-he.html">Liên hệ</a>
+    </nav>
+  </div>
+</header>
 
-<div class="container footer small">© 2025 — NXP • GitHub Pages</div>
-<div class="fabs">
-  <a href="tel:0908399962"><img class="icon" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='black'><path d='M6.6 10.8c1.3 2.6 3.4 4.7 6 6l2-2c.3-.3.8-.4 1.2-.3 1 .3 2 .5 3 .5.7 0 1.2.5 1.2 1.2V20c0 .7-.5 1.2-1.2 1.2C9.5 21.2 2.8 14.5 2.8 6.2 2.8 5.5 3.3 5 4 5h3.7c.7 0 1.2.5 1.2 1.2 0 1 0 2-.5 3-.1.4 0 .9.3 1.2l-2.1 2.4z'/></svg>'/><span>Gọi 0908399962</span></a>
-  <a href="https://zalo.me/0908399962" target="_blank" rel="noopener"><img class="icon" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='black'><circle cx='12' cy='12' r='10'/></svg>'/><span>Zalo</span></a>
-  <a href="https://www.facebook.com/se.con.9" target="_blank" rel="noopener"><img class="icon" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='black'><path d='M10 9h2V7c0-1.1.9-2 2-2h2v3h-2v2h2l-.5 3h-1.5v6h-3v-6H10V9z'/></svg>'/><span>Facebook</span></a>
-</div>
-<script>if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js'); }</script>
-</body></html>
+<header class="container"><h1 id="title">Sản phẩm</h1></header>
+<div class="container" id="content"><p>Đang tải…</p></div>
+<footer><div class="container"><small class="muted">Lấy dữ liệu từ affiliates.json qua ?sku=</small></div></footer>
+
 <script>
-(async function(){
-  const params = new URLSearchParams(location.search);
-  const sku = params.get('sku');
-  const wrap = document.createElement('div');
-  wrap.className = 'container';
-  document.body.insertBefore(wrap, document.querySelector('.footer').parentNode);
-  if(!sku) { wrap.innerHTML = '<h1>Thiếu tham số SKU</h1>'; return; }
-  const res = await fetch('/affiliates.json');
-  const all = await res.json();
-  const p = all.find(x => x.sku === sku);
-  if(!p){ wrap.innerHTML = '<h1>Không tìm thấy sản phẩm</h1>'; document.querySelector('meta[name="robots"]').setAttribute('content','noindex,follow'); return; }
-  document.title = p.name + ' | NXP';
-  document.getElementById('desc').setAttribute('content', p.name);
-  const cano = 'https://nxphuong.github.io/g.html?sku=' + encodeURIComponent(p.sku);
-  document.getElementById('canonical').setAttribute('href', cano);
-  document.querySelector('meta[property="og:title"]').setAttribute('content', p.name + ' | NXP');
-  document.querySelector('meta[property="og:description"]').setAttribute('content', p.name);
-  document.querySelector('meta[property="og:url"]').setAttribute('content', cano);
-  document.querySelector('meta[property="og:image"]').setAttribute('content', 'https://nxphuong.github.io' + (p.image || '/assets/img/products/placeholder.webp'));
+/* FIND: g.html loader v2025-10-31 — tries /assets/data/affiliates.json then /affiliates.json */
+const qs = n => new URL(location.href).searchParams.get(n);
+const canonical = document.getElementById('canonical');
+const ogurl = document.getElementById('ogurl');
+const ogimg = document.getElementById('ogimg');
+const ogdesc = document.getElementById('ogdesc');
+const desc = document.getElementById('desc');
+const robotsMeta = document.getElementById('robots');
+
+function setMeta(p, imgAbs){
+  const u = new URL('/g.html?sku='+encodeURIComponent(p.sku), location.origin).href;
+  canonical.href = u; ogurl.setAttribute('content', u);
+  ogimg.setAttribute('content', imgAbs);
+  desc.setAttribute('content', p.name);
+  ogdesc.setAttribute('content', p.name);
+  document.title = p.name + ' | MXD';
+}
+
+async function loadAffiliates(){
+  const candidates = ['/assets/data/affiliates.json', '/affiliates.json'];
+  for (const url of candidates){
+    try{
+      const res = await fetch(url, {cache:'no-store'});
+      if(res.ok) return await res.json();
+    }catch(e){}
+  }
+  return [];
+}
+
+document.addEventListener('DOMContentLoaded', async ()=>{
+  const sku = qs('sku'), wrap = document.getElementById('content'), h1 = document.getElementById('title');
+  if(!sku){ wrap.innerHTML = '<p>Thiếu ?sku=</p>'; return; }
+
+  const data = await loadAffiliates();
+  const p = data.find(x=> String(x.sku) === String(sku));
+
+  if(!p){
+    robotsMeta?.setAttribute('content','noindex,follow');
+    wrap.innerHTML = '<p>Không tìm thấy SKU.</p>';
+    return;
+  }
+
+  const imgAbs = new URL(p.image || ('/assets/img/products/'+p.sku+'.webp'), location.origin).href;
+  setMeta(p, imgAbs);
+  h1.textContent = p.name;
+
+  const priceRaw = (p.price_vnd ?? p.price);
+  const priceNum = Number(priceRaw);
+  const price = Number.isFinite(priceNum) ? priceNum.toLocaleString('vi-VN') + ' ₫' : '';
+
+  const ld = {
+    "@context":"https://schema.org","@type":"Product",
+    "name":p.name,"sku":p.sku,
+    "image":[imgAbs],
+    "description":p.name,
+    "offers":{"@type":"Offer","priceCurrency":"VND","price":String(priceRaw??''),"availability":"https://schema.org/InStock","url":new URL('/g.html?sku='+encodeURIComponent(p.sku),location.origin).href}
+  };
+  const s=document.createElement('script'); s.type='application/ld+json'; s.textContent=JSON.stringify(ld); document.head.appendChild(s);
+
   wrap.innerHTML = `
-    <div class="grid" style="grid-template-columns: 1fr 1.2fr; gap: 20px">
-      <div class="card"><img src="${p.image || '/assets/img/products/placeholder.webp'}" alt="${p.name}" onerror="this.src='/assets/img/products/placeholder.webp'"/></div>
-      <div class="card">
-        <h1 style="margin-top:0">${p.name}</h1>
-        <div class="price">${(p.price_vnd||0).toLocaleString('vi-VN')}₫</div>
-        <div class="badges"><span class="badge">${p.merchant}</span><span class="badge">SKU: ${p.sku}</span></div>
-        <div style="margin-top:12px">${p.desc||''}</div>
-        <a class="product-meta" href="${p.origin_url}" data-merchant="${p.merchant}" data-sku="${p.sku}" data-img="${p.image||''}" data-price="${p.price_vnd||0}">${p.name}</a>
-        <a class="buy" href="${p.origin_url}" target="_blank" rel="noopener">Mua ngay</a>
-      </div>
-    </div>`;
-  const ld = {"@context":"https://schema.org","@type":"Product","name": p.name,"sku": p.sku,"image": "https://nxphuong.github.io" + (p.image || "/assets/img/products/placeholder.webp"),"description": p.desc || p.name,"offers":{"@type":"Offer","priceCurrency":"VND","price": String(p.price_vnd||0),"availability":"https://schema.org/InStock","url": "https://nxphuong.github.io/g.html?sku=" + encodeURIComponent(p.sku)}};
-  const s = document.createElement('script'); s.type='application/ld+json'; s.textContent = JSON.stringify(ld); document.head.appendChild(s);
-})();
+  <div class="card product-card">
+    <a class="product-meta"
+       href="${p.origin_url ?? p.origin ?? '#'}"
+       data-merchant="${p.merchant||''}"
+       data-sku="${p.sku}"
+       data-img="${p.image||('/assets/img/products/'+p.sku+'.webp')}"
+       ${Number.isFinite(priceNum)?`data-price="${priceNum}"`:''}>${p.name}</a>
+    <img src="${p.image || ('/assets/img/products/'+p.sku+'.webp')}" alt="${p.name}"/>
+    ${price?`<p><strong>${price}</strong></p>`:''}
+    <p><span class="badge">${p.merchant||''}</span></p>
+    <p><a class="btn buy" href="#">Mua ngay</a></p>
+  </div>`;
+
+  // MXD-CHECK: SW register
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(()=>{});
+  }
+});
 </script>
 </body></html>

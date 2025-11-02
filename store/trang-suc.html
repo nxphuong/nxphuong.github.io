@@ -1,13 +1,13 @@
-<!-- REPLACE WHOLE FILE: /store/me-va-be.html -->
+<!-- REPLACE WHOLE FILE: /store/trang-suc.html -->
 <!doctype html><html lang="vi"><head>
 <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Mẹ & Bé | MXD</title>
-<meta name="description" content="Danh mục Mẹ & Bé — hiển thị sản phẩm từ affiliates.json theo chuẩn MXD."/>
-<link rel="canonical" href="https://tuyetlethi83a.github.io/store/me-va-be.html"/>
+<title>Trang sức | MXD</title>
+<meta name="description" content="Danh mục Trang sức — hiển thị sản phẩm từ affiliates.json theo chuẩn MXD."/>
+<link rel="canonical" href="https://tuyetlethi83a.github.io/store/trang-suc.html"/>
 <meta name="robots" content="index,follow"/>
-<meta property="og:title" content="Mẹ & Bé | MXD"/>
-<meta property="og:description" content="Danh mục Mẹ & Bé"/>
-<meta property="og:url" content="https://tuyetlethi83a.github.io/store/me-va-be.html"/>
+<meta property="og:title" content="Trang sức | MXD"/>
+<meta property="og:description" content="Danh mục Trang sức"/>
+<meta property="og:url" content="https://tuyetlethi83a.github.io/store/trang-suc.html"/>
 <meta property="og:image" content="https://tuyetlethi83a.github.io/assets/og/default-og.webp"/>
 <link rel="stylesheet" href="/assets/site.css"/>
 <script defer src="/assets/analytics.js"></script>
@@ -16,18 +16,18 @@
 <body>
 <header class="topbar"><div class="container nav">
   <a class="brand" href="/">Cửa hàng liên kết</a>
-  <nav><a href="/">Trang chủ</a><a href="/store.html">Cửa hàng</a><a href="/store/thoi-trang.html">Thời trang</a><a href="/store/my-pham.html">Mỹ phẩm</a><a href="/store/me-va-be.html">Mẹ & Bé</a><a href="/lien-he.html">Liên hệ</a></nav>
+  <nav><a href="/">Trang chủ</a><a href="/store.html">Cửa hàng</a><a href="/store/thoi-trang.html">Thời trang</a><a href="/store/my-pham.html">Mỹ phẩm</a><a href="/store/me-va-be.html">Mẹ & Bé</a><a href="/store/trang-suc.html">Trang sức</a><a href="/lien-he.html">Liên hệ</a></nav>
 </div></header>
 
-<header class="container"><h1>Mẹ & Bé</h1></header>
+<header class="container"><h1>Trang sức</h1></header>
 <main class="container">
   <div id="grid" class="product-grid"><p>Đang tải…</p></div>
 </main>
 <footer><div class="container"><small class="muted">MXD — category hub</small></div></footer>
 
 <script>
-/* FIND: category hub loader v2025-10-31-b02 — slug=me-va-be (await r.json()) */
-const SLUG = 'me-va-be';
+/* FIND: category hub loader v2025-11-01-b01 — slug=trang-suc */
+const SLUG = 'trang-suc';
 const $ = (id)=>document.getElementById(id);
 
 function priceText(v){ const n=Number(v); return Number.isFinite(n)? n.toLocaleString('vi-VN')+' ₫' : ''; }
@@ -54,7 +54,7 @@ async function loadAffiliates(){
     try{
       const r=await fetch(url,{cache:'no-store'});
       if(r.ok){
-        const j = await r.json(); // keep: await r.json()
+        const j=await r.json();
         if(Array.isArray(j)) return j;
       }
     }catch(e){}

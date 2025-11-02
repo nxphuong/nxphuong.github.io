@@ -1,12 +1,20 @@
+# https://tuyetlethi83a.github.io — MXD Canonical Skeleton
 
-# nxphuong.github.io (NXP — scaffold theo chuẩn, không dính thương hiệu MXD)
+Chuẩn áp dụng (theo MXD210):
+- **GA4 trước** `/assets/mxd-affiliate.js` (gắn đúng 1 lần/trang).
+- **Canonical tuyệt đối** (https://…).
+- Ảnh sản phẩm: `/assets/img/products/<sku>.webp` (tên file = SKU, đuôi `.webp`).
+- **affiliates.json** là nguồn sự thật (name, sku, image, price_vnd, origin_url, merchant, category).
+- `g.html` tạo Product JSON-LD, auto `noindex` nếu SKU không tồn tại.
+- SW: HTML network-first; assets stale-while-revalidate (bump `VERSION` khi đổi asset).
+- `store.html`: chỉ có **1 hub "Cửa hàng"**; danh mục con = `/store/<slug>.html` (thêm tile theo MXD Rule 53).
 
-- GA4: **G-2RX0F54604** (analytics.js trước affiliate)
-- Affiliate rewrite: dùng *deep_link base* (đã có `sub4=oneatweb`) + tự thêm `url=<origin>&utm_*&sub1=<sku>&sub2=<merchant>`
-- Canonical tuyệt đối (`https://nxphuong.github.io`), JSON-LD Product ở `g.html?sku=`
-- Ảnh: `/assets/img/products/<sku>.webp`, danh mục `/assets/img/categories`
-- SW: HTML **network-first**, assets **stale-while-revalidate**
-
-Triển khai:
-1) Tạo repo **nxphuong.github.io** (Public) → upload ZIP vào root → commit
-2) Mở **https://nxphuong.github.io**
+## Triển khai
+1) Upload toàn bộ lên repo `tuyetlethi83a.github.io` (root).
+2) Bật Pages: Settings → Pages → Source = `main` (root).
+3) **Copy từ mxd210**:
+   - `affiliates.json` (đè file hiện tại).
+   - Tất cả ảnh sản phẩm vào `/assets/img/products/` (đúng SKU.webp).
+   - Ảnh danh mục vào `/assets/img/categories/<slug>.webp` (nếu có).
+   - (Tùy chọn) tạo thêm `/store/<slug>.html` rồi chèn tile vào `store.html` (xem MXD Rule 53).
+4) Share link sản phẩm: `https://tuyetlethi83a.github.io/g.html?sku=<SKU>`.
