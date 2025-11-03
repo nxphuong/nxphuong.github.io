@@ -1,0 +1,458 @@
+<!-- REPLACE WHOLE FILE: /tools/nxphuong-importer.html -->
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>NXP Importer v4.4.0 — Batch + JSON + Snippet + Upload-lite</title>
+  <meta name="robots" content="noindex,follow"/>
+  <style>
+    :root{
+      --bg:#0b0f14;--fg:#e8f0fb;--muted:#a7b4c2;--b:#142030;--accent:#7cc4ff;
+      --ok:#34d399;--warn:#f59e0b;--err:#ef4444;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 system-ui,Segoe UI,Roboto,Arial}
+    header{padding:16px 18px;background:linear-gradient(90deg,#0e1622,#141e2c)}
+    header h1{margin:0;font-size:18px}
+    header p{margin:6px 0 0;color:var(--muted)}
+    main{padding:18px;display:grid;gap:16px}
+    section{background:var(--b);border:1px solid #21324a;border-radius:12px;padding:14px}
+    h2{margin:0 0 10px;font-size:16px}
+    label{display:block;margin:8px 0 6px;color:#cfe2ff}
+    input[type=text],input[type=number],textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #2a3b56;background:#0c1521;color:var(--fg)}
+    textarea{min-height:110px;resize:vertical}
+    .row{display:grid;gap:10px}
+    .g2{grid-template-columns:1fr 1fr}
+    .g3{grid-template-columns:1fr 1fr 1fr}
+    .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    button{padding:10px 14px;border:0;border-radius:10px;background:#20344f;color:#e6f1ff;cursor:pointer}
+    button.primary{background:#2a7bd1}
+    button.warn{background:#b86f0f}
+    button.danger{background:#b02a37}
+    button:disabled{opacity:.6;cursor:not-allowed}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:14px}
+    th,td{border-bottom:1px solid #1f2d44;padding:8px 6px;vertical-align:top}
+    th{color:#cfe2ff;text-align:left;position:sticky;top:0;background:var(--b)}
+    code,pre{background:#0c1521;border:1px solid #2a3b56;border-radius:10px;padding:10px;display:block;color:#d8e7ff;overflow:auto}
+    .note{color:var(--muted);font-size:13px}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#1b2a40;color:#cfe2ff;font-size:12px}
+    .right{display:flex;gap:8px;justify-content:flex-end}
+    .hint{font-size:12px;color:#9ab1cf}
+    .flex{display:flex;gap:8px;flex-wrap:wrap}
+    .toast{position:fixed;right:12px;bottom:12px;display:grid;gap:8px;z-index:9999}
+    .toast .t{padding:10px 12px;border-radius:10px}
+    .t.ok{background:#10281f;color:#b7ffdb;border:1px solid #1f6c49}
+    .t.err{background:#2a1212;color:#ffc2c2;border:1px solid #7c2f2f}
+    .t.warn{background:#2a1f10;color:#ffe0af;border:1px solid #7c5b2f}
+    .kbd{padding:2px 6px;border:1px solid #2a3b56;border-radius:6px;background:#0c1521}
+    .mini{font-size:12px}
+    .sep{height:1px;background:#1f2d44;margin:8px 0}
+  </style>
+</head>
+<body>
+<header>
+  <h1>NXP Importer v4.4.0</h1>
+  <p>Chuẩn MXD: batch nhập sản phẩm → xuất <span class="pill">affiliates.json</span>, snippet HTML, ZIP; tuỳ chọn upload qua Worker.</p>
+</header>
+
+<main>
+  <!-- CẤU HÌNH PHIÊN -->
+  <section>
+    <h2>1) Cấu hình phiên</h2>
+    <div class="row g3">
+      <div>
+        <label>Owner/Repo (GH)</label>
+        <input id="ghrepo" type="text" placeholder="vd: nxphuong.github.io" value="nxphuong.github.io"/>
+        <div class="hint mini">Dùng nếu bạn upload qua Worker.</div>
+      </div>
+      <div>
+        <label>Branch</label>
+        <input id="branch" type="text" value="main"/>
+      </div>
+      <div>
+        <label>Đích ghi file</label>
+        <input id="destPath" type="text" value="/assets/data/affiliates.json"/>
+      </div>
+    </div>
+
+    <div class="row g2" style="margin-top:8px">
+      <div>
+        <label>Worker Endpoint (upload-lite)</label>
+        <input id="worker" type="text" placeholder="https://<your-worker>.workers.dev/ops/upload-lite"/>
+        <div class="hint mini">Để trống nếu bạn không dùng upload qua Worker.</div>
+      </div>
+      <div>
+        <label>X-Key (nếu Worker yêu cầu)</label>
+        <input id="xkey" type="text" placeholder="X-Key"/>
+      </div>
+    </div>
+
+    <div class="sep"></div>
+    <div class="row g2">
+      <div>
+        <label>Base Shopee (isclix)</label>
+        <input id="baseShopee" type="text" placeholder="https://go.isclix.com/deep_link/.../4751584435713464237"/>
+      </div>
+      <div>
+        <label>Base Lazada (isclix)</label>
+        <input id="baseLazada" type="text" placeholder="https://go.isclix.com/deep_link/.../5127144557053758578"/>
+      </div>
+    </div>
+    <div class="row g2">
+      <div>
+        <label>Base TikTok (isclix)</label>
+        <input id="baseTiktok" type="text" placeholder="https://go.isclix.com/deep_link/.../6648523843406889655"/>
+      </div>
+      <div>
+        <label>Base Tiki (isclix – nếu dùng)</label>
+        <input id="baseTiki" type="text" placeholder="https://go.isclix.com/deep_link/.../4348614231480407268"/>
+      </div>
+    </div>
+    <div class="note">Các base chỉ dùng để <em>xem trước</em> logic sub1/sub4; việc rewrite khi click vẫn do <code>mxd-affiliate.js</code> trên site xử lý.</div>
+  </section>
+
+  <!-- NHẬP DỮ LIỆU -->
+  <section>
+    <h2>2) Thêm sản phẩm</h2>
+    <div class="row g2">
+      <div>
+        <label>Tên sản phẩm</label>
+        <input id="name" type="text" placeholder="Tên hiển thị"/>
+      </div>
+      <div>
+        <label>Giá (VND)</label>
+        <input id="price" type="number" min="0" step="1000" placeholder="vd: 99000"/>
+      </div>
+    </div>
+    <div class="row g2">
+      <div>
+        <label>Link gốc (origin)</label>
+        <input id="origin" type="text" placeholder="https://shopee.vn/... hoặc lazada.vn/..."/>
+      </div>
+      <div>
+        <label>SKU (kebab-case, duy nhất)</label>
+        <input id="sku" type="text" placeholder="vi-du-san-pham-abc-123"/>
+      </div>
+    </div>
+    <div class="row g3">
+      <div>
+        <label>Danh mục (category)</label>
+        <input id="category" type="text" placeholder="vd: san-pham-so / thoi-trang / my-pham"/>
+      </div>
+      <div>
+        <label>Thương hiệu (brand)</label>
+        <input id="brand" type="text" placeholder="vd: Xiaomi / Unilever / ..."/>
+      </div>
+      <div>
+        <label>Ảnh (sẽ tự gợi ý)</label>
+        <input id="image" type="text" placeholder="/assets/img/products/<sku>.webp"/>
+      </div>
+    </div>
+    <div class="row g2">
+      <div>
+        <label>Featured?</label>
+        <input id="featured" type="text" value="false" placeholder="true/false"/>
+        <div class="hint mini">Dùng để ưu tiên render ở khu vực nổi bật.</div>
+      </div>
+      <div>
+        <label>Sub4 (tuỳ chọn)</label>
+        <input id="sub4" type="text" placeholder="vd: oneatweb hoặc nxphuong"/>
+      </div>
+    </div>
+
+    <div class="btns">
+      <button class="primary" id="btnAdd">+ Thêm vào danh sách</button>
+      <button class="warn" id="btnAddFromLines">+ Thêm nhanh (nhiều dòng)</button>
+      <button class="danger" id="btnClear">Xoá hết danh sách</button>
+    </div>
+
+    <details style="margin-top:10px">
+      <summary><span class="pill">MẪU NHẬP NHANH</span> (nhiều sản phẩm 1 lúc)</summary>
+      <p class="hint">Mỗi dòng: <code>name|price|origin|sku|category|brand|featured(true/false)</code>. Merchant sẽ tự nhận diện theo domain.</p>
+      <textarea id="bulk" placeholder="Ví dụ:
+Áo croptop nữ|99000|https://shopee.vn/....|ao-croptop-nu|thoi-trang|TOPTIFY|true
+Kem chống nắng ABC|159000|https://www.lazada.vn/....|kem-chong-nang-abc|my-pham|ABC|false"></textarea>
+    </details>
+  </section>
+
+  <!-- DANH SÁCH HIỆN TẠI -->
+  <section>
+    <h2>3) Danh sách đang nhập</h2>
+    <div class="right mini"><span id="count" class="pill">0 items</span></div>
+    <div class="hint">Ảnh sẽ auto = <code>/assets/img/products/&lt;sku&gt;.webp</code> nếu bạn để trống.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>SKU</th><th>Tên</th><th>Giá</th><th>Merchant</th><th>Danh mục</th><th>Origin</th><th></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </section>
+
+  <!-- XUẤT -->
+  <section>
+    <h2>4) Xuất dữ liệu</h2>
+    <div class="btns">
+      <button class="primary" id="btnJSON">Tạo JSON (affiliates append)</button>
+      <button id="btnSnippet">Tạo Snippet HTML (meta link + buy)</button>
+      <button id="btnZIP">Tải ZIP (affiliates_append.json + README)</button>
+    </div>
+    <div class="sep"></div>
+    <label>Kết quả</label>
+    <pre id="out"><code>// Kết quả sẽ hiện ở đây…</code></pre>
+  </section>
+
+  <!-- UPLOAD LITE -->
+  <section>
+    <h2>5) Upload lên repo qua Worker (tuỳ chọn)</h2>
+    <div class="note">Yêu cầu Worker có route <span class="kbd">/ops/upload-lite</span> và quyền GH_TOKEN. Payload chuẩn: <code>{repo,branch,path,mode,content}</code>.</div>
+    <div class="btns">
+      <button class="primary" id="btnUpload">Upload (mode: append)</button>
+      <button class="warn" id="btnUploadReplace">Upload (mode: replace)</button>
+    </div>
+    <div class="hint mini">Nếu gặp 401: kiểm tra <strong>Origin allow</strong>, <strong>X-Key</strong>, và quyền GH_TOKEN của Worker.</div>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ====== NXP Importer v4.4.0 ====== */
+const $ = (s)=>document.querySelector(s);
+const $$ = (s)=>document.querySelectorAll(s);
+const state = {items:[]};
+
+function toast(msg,type='ok'){const t=document.createElement('div');t.className='t '+(type||'ok');t.textContent=msg;$('#toast').appendChild(t);setTimeout(()=>t.remove(),3500)}
+function kebab(s){return (s||'').toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'')}
+function detectMerchant(u){
+  if(!u) return '';
+  const h = (new URL(u)).hostname.toLowerCase();
+  if(h.includes('shopee')) return 'shopee';
+  if(h.includes('lazada')) return 'lazada';
+  if(h.includes('tiki')) return 'tiki';
+  if(h.includes('tiktok')) return 'tiktok';
+  return '';
+}
+function ensureImagePath(sku,img){
+  if(img && img.trim()) return img.trim();
+  return `/assets/img/products/${sku}.webp`;
+}
+function nowISO(){return new Date().toISOString().slice(0,19)+'Z'}
+
+function render(){
+  const tb = $('#tbody'); tb.innerHTML='';
+  state.items.forEach((it,idx)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML = `
+      <td><code>${it.sku}</code></td>
+      <td>${it.name}</td>
+      <td>${(it.price||0).toLocaleString('vi-VN')}</td>
+      <td><span class="pill">${it.merchant||'-'}</span></td>
+      <td>${it.category||''}</td>
+      <td class="mini"><a href="${it.origin}" target="_blank">${it.origin}</a></td>
+      <td><button class="danger mini" data-i="${idx}">Xoá</button></td>`;
+    tb.appendChild(tr);
+  });
+  $('#count').textContent = `${state.items.length} items`;
+  tb.querySelectorAll('button[data-i]').forEach(b=>{
+    b.onclick=()=>{ state.items.splice(+b.dataset.i,1); render(); };
+  });
+}
+
+function addOne({name,price,origin,sku,category,brand,image,featured,sub4}){
+  if(!name||!origin){toast('Thiếu name hoặc origin', 'warn');return}
+  if(!sku){toast('Thiếu SKU', 'warn');return}
+  if(state.items.some(x=>x.sku===sku)){toast('SKU bị trùng: '+sku,'warn');return}
+  let merchant=''; try{ merchant = detectMerchant(origin) }catch(e){}
+  if(!merchant){toast('Không nhận diện được merchant từ origin', 'warn')}
+  const it = {
+    name: name.trim(),
+    price: Number(price||0),
+    origin: origin.trim(),
+    merchant,
+    sku: kebab(sku),
+    image: ensureImagePath(kebab(sku), image),
+    category: (category||'').trim(),
+    brand: (brand||'').trim(),
+    featured: String(featured||'false').toLowerCase()==='true',
+    status: 'active',
+    updated_at: nowISO(),
+    sub1: kebab(sku),
+    ...(sub4?{sub4:String(sub4)}:{})
+  };
+  state.items.push(it); render();
+}
+
+$('#btnAdd').onclick=()=>{
+  const name=$('#name').value, price=$('#price').value, origin=$('#origin').value,
+        sku=$('#sku').value, category=$('#category').value, brand=$('#brand').value,
+        image=$('#image').value, featured=$('#featured').value, sub4=$('#sub4').value;
+  addOne({name,price,origin,sku,category,brand,image,featured,sub4});
+};
+
+$('#btnAddFromLines').onclick=()=>{
+  const lines = $('#bulk').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  let ok=0, bad=0;
+  lines.forEach(line=>{
+    const [name,price,origin,sku,category,brand,featured] = line.split('|');
+    if(name&&origin&&sku){ addOne({name,price,origin,sku,category,brand,featured}); ok++; }
+    else bad++;
+  });
+  toast(`Đã thêm: ${ok} | lỗi: ${bad}`, bad? 'warn':'ok');
+};
+$('#btnClear').onclick=()=>{ state.items=[]; render(); };
+
+function toJSON(){
+  return JSON.stringify(state.items, null, 2);
+}
+
+function productMetaSnippet(it){
+  // Theo chuẩn MXD: meta link + 1..n buy links (demo 3 sàn phổ biến)
+  const nameEsc = it.name.replace(/"/g,'&quot;');
+  const meta = `<a class="product-meta" href="${it.origin}" data-merchant="${it.merchant}" data-sku="${it.sku}" data-img="${it.image}" data-price="${it.price}">${nameEsc}</a>`;
+  const buy1 = `<a class="buy" data-merchant="${it.merchant}" href="${it.origin}" rel="nofollow">Mua ngay</a>`;
+  return `${meta}\n${buy1}`;
+}
+function toSnippet(){
+  return state.items.map(productMetaSnippet).join('\n\n');
+}
+
+function setOut(text){ $('#out').innerHTML = '<code>'+text.replace(/[&<>]/g,s=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]))+'</code>'; }
+
+$('#btnJSON').onclick=()=>{
+  if(!state.items.length){ toast('Danh sách trống', 'warn'); return; }
+  setOut(toJSON());
+  toast('Đã tạo JSON append','ok');
+};
+$('#btnSnippet').onclick=()=>{
+  if(!state.items.length){ toast('Danh sách trống', 'warn'); return; }
+  setOut(toSnippet());
+  toast('Đã tạo HTML snippet','ok');
+};
+
+$('#btnZIP').onclick=async()=>{
+  if(!state.items.length){ toast('Danh sách trống', 'warn'); return; }
+  const files = {
+    'affiliates_append.json': toJSON(),
+    'README.txt':
+`NXP Importer v4.4.0
+- Dán nội dung affiliates_append.json vào /assets/data/affiliates.json (append, xoá trùng SKU nếu có).
+- Ảnh: /assets/img/products/<sku>.webp
+- Snippet HTML (tuỳ chọn) để nhúng nhanh trong hub: mỗi item có <a class="product-meta"> + <a class="buy">.`
+  };
+  const zip = await makeZip(files);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(zip);
+  a.download = 'nxp-importer-export.zip';
+  a.click();
+  toast('Đã tạo ZIP','ok');
+};
+
+// Minimal ZIP (no deps)
+async function makeZip(files){
+  // very small ZIP builder for text files
+  // NOTE: This is a simplistic store-only zip for text files
+  const enc = new TextEncoder();
+  let fileRecs = [];
+  let offset = 0;
+  const parts = [];
+  const DOS = {time:0x0000, date:0x0000}; // not setting real time
+  for(const [name,content] of Object.entries(files)){
+    const data = enc.encode(content);
+    const crc = crc32(data);
+    const nameBytes = enc.encode(name);
+    // local file header
+    parts.push(
+      U32(0x04034b50), // local file sig
+      U16(20), U16(0), U16(0), // ver, flags, method=0(store)
+      U16(DOS.time), U16(DOS.date),
+      U32(crc), U32(data.length), U32(data.length),
+      U16(nameBytes.length), U16(0),
+      nameBytes, data
+    );
+    fileRecs.push({nameBytes,crc,size:data.length,offset});
+    offset += 30 + nameBytes.length + data.length;
+  }
+  const central = [];
+  let centralSize = 0;
+  for(const rec of fileRecs){
+    central.push(
+      U32(0x02014b50),U16(20),U16(20),U16(0),U16(0),
+      U16(DOS.time),U16(DOS.date),
+      U32(rec.crc),U32(rec.size),U32(rec.size),
+      U16(rec.nameBytes.length),U16(0),U16(0),U16(0),U16(0),U32(0),
+      U32(rec.offset),
+      rec.nameBytes
+    );
+    centralSize += 46 + rec.nameBytes.length;
+  }
+  const end = [
+    U32(0x06054b50),U16(0),U16(0),
+    U16(fileRecs.length),U16(fileRecs.length),
+    U32(centralSize),U32(offset),U16(0)
+  ];
+  const blobParts = [...parts, ...central, ...end].map(toBytes).flat();
+  return new Blob([new Uint8Array(blobParts)],{type:'application/zip'});
+}
+function toBytes(x){
+  return (x instanceof Uint8Array) ? x : (Array.isArray(x)? x : x);
+}
+function U16(n){ return [n & 0xFF, (n>>8)&0xFF]; }
+function U32(n){ return [n & 0xFF, (n>>8)&0xFF, (n>>16)&0xFF, (n>>24)&0xFF]; }
+// CRC32
+const CRC_TABLE = (()=>{let c,t=[];for(let n=0;n<256;n++){c=n;for(let k=0;k<8;k++){c=((c&1)?(0xEDB88320^(c>>>1)):(c>>>1))}t[n]=c>>>0;}return t;})();
+function crc32(bytes){let c=~0;for(let i=0;i<bytes.length;i++){c=CRC_TABLE[(c^bytes[i])&0xFF]^(c>>>8);}return (~c)>>>0;}
+
+async function upload(mode){
+  if(!state.items.length){ toast('Danh sách trống', 'warn'); return; }
+  const worker = $('#worker').value.trim();
+  const repo = $('#ghrepo').value.trim();
+  const branch = $('#branch').value.trim();
+  const path = $('#destPath').value.trim();
+  if(!worker||!repo||!branch||!path){ toast('Thiếu Worker/Repo/Branch/Path', 'warn'); return; }
+
+  const content = toJSON();
+  const body = { repo, branch, path, mode, content };
+  const headers = {'Content-Type':'application/json'};
+  const xkey = $('#xkey').value.trim();
+  if(xkey) headers['X-Key'] = xkey;
+
+  try{
+    const res = await fetch(worker, {method:'POST', headers, body: JSON.stringify(body)});
+    const txt = await res.text();
+    if(res.ok){ toast('Upload thành công','ok'); setOut(txt); }
+    else{ toast('Upload lỗi: '+res.status,'err'); setOut(txt); }
+  }catch(e){
+    toast('Upload exception: '+e.message,'err');
+  }
+}
+$('#btnUpload').onclick = ()=>upload('append');
+$('#btnUploadReplace').onclick = ()=>upload('replace');
+
+// Gợi ý tự động field ảnh & sku
+$('#sku').addEventListener('input',()=>{
+  const sku = kebab($('#sku').value);
+  if(!$('#image').value) $('#image').value = ensureImagePath(sku);
+});
+$('#origin').addEventListener('change',()=>{
+  const v = $('#origin').value.trim();
+  if(v && !$('#sku').value){
+    try{
+      const u = new URL(v);
+      const base = u.pathname.replace(/\/+$/,'').split('/').filter(Boolean).slice(-1)[0]||'link';
+      $('#sku').value = kebab(base);
+      if(!$('#image').value) $('#image').value = ensureImagePath(kebab(base));
+      if(!$('#category').value){
+        const m = detectMerchant(v);
+        if(m==='shopee' || m==='tiki') $('#category').value='san-pham-so';
+      }
+    }catch(e){}
+  }
+});
+</script>
+</body>
+</html>
+
+<!-- commit: feat(tool): add NXP Importer v4.4.0 — batch parse + JSON/ZIP + Worker upload-lite -->
