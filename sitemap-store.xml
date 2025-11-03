@@ -83,4 +83,12 @@
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
+  <!-- INSERT vào sitemap-store.xml (không trùng <loc>) -->
+<url>
+  <loc>https://nxphuong.github.io/store/san-pham-so.html</loc>
+  <lastmod>2025-11-02</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.85</priority>
+</url>
+
 </urlset>
