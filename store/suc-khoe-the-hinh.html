@@ -12,7 +12,69 @@
 <script defer src="/assets/mxd-affiliate.js"></script>
 </head>
 <body>
+<header class="topbar"><!-- REPLACE WHOLE FILE: /store/suc-khoe-the-hinh.html -->
+<!doctype html><html lang="vi"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sức khỏe & thể hình | NXPhuong</title>
+<meta name="description" content="Sức khỏe & thể hình — Danh mục trên NXPhuong"/>
+<link rel="canonical" href="https://nxphuong.github.io/store/suc-khoe-the-hinh.html"/><meta name="robots" content="index,follow"/>
+<meta property="og:title" content="Sức khỏe & thể hình | NXPhuong"/>
+<meta property="og:description" content="Danh mục sản phẩm Sức khỏe & thể hình"/>
+<meta property="og:url" content="https://nxphuong.github.io/store/suc-khoe-the-hinh.html"/>
+<meta property="og:image" content="https://nxphuong.github.io/assets/og/suc-khoe-the-hinh.webp"/>
+<link rel="stylesheet" href="/assets/site.css"/>
+<script defer src="/assets/analytics.js"></script>
+<script defer src="/assets/mxd-affiliate.js"></script>
+</head>
+<body>
 <header class="topbar">
+  <div class="container nav">
+    <div class="brand">NXPHUONG</div>
+    <nav>
+      <a href="/store.html">Cửa hàng</a>
+      <a href="/lien-he.html">Liên hệ</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <h1>Sức khỏe & thể hình</h1>
+
+  <div class="category-intro">
+    <p>Sức khỏe là nền tảng của hạnh phúc, và danh mục “Sức khỏe & thể hình” ra đời để đồng hành cùng bạn trên hành trình sống khỏe mạnh, tràn đầy năng lượng. Tại đây, bạn sẽ tìm thấy thực phẩm bổ sung, vitamin, thiết bị tập luyện, dụng cụ thể thao và sản phẩm chăm sóc cơ thể từ những thương hiệu đáng tin cậy. Mỗi sản phẩm đều được chọn lọc dựa trên chất lượng, công dụng thực tế và phản hồi từ người dùng. Chúng tôi không chỉ giúp bạn mua sắm thông minh, mà còn chia sẻ bí quyết dinh dưỡng, tập luyện và chăm sóc sức khỏe tinh thần. “Sức khỏe & thể hình” – nơi bạn bắt đầu hành trình kiến tạo một cơ thể dẻo dai, tinh thần mạnh mẽ và cuộc sống cân bằng.</p>
+  </div>
+
+  <div id="grid" class="product-grid"><p>Đang tải…</p></div>
+</div>
+
+<footer><div class="container"><small class="muted">Dữ liệu từ affiliates.json (category=suc-khoe-the-hinh)</small></div></footer>
+
+<script>
+(async()=>{
+  const cat = "suc-khoe-the-hinh";
+  const res = await fetch('/assets/data/affiliates.json', {cache:'no-store'}).catch(()=>null);
+  const list = res && res.ok ? await res.json() : [];
+  const items = list.filter(x => (x.category||'') === cat && x.status !== false).slice(0, 40);
+  const grid = document.getElementById('grid');
+  grid.innerHTML = items.length ? items.map(p => `
+    <div class="product-card">
+      <a class="product-meta" href="${p.origin_url||'#'}"
+         data-merchant="${p.merchant||''}"
+         data-sku="${p.sku||''}"
+         data-img="${p.image||('/assets/img/products/'+(p.sku||'')+'.webp')}"
+         data-price="${p.price_vnd||''}">${p.name}</a>
+      <img src="${p.image || ('/assets/img/products/'+(p.sku||'')+'.webp')}" alt="${p.name||''}"/>
+      ${p.price_vnd?`<p><strong>${(p.price_vnd).toLocaleString('vi-VN')}₫</strong></p>`:''}
+      <p><span class="badge">${p.merchant||''}</span></p>
+      <p><a class="btn buy" href="#">Mua ngay</a></p>
+    </div>
+  `).join('') : '<p>Chưa có sản phẩm trong danh mục này.</p>';
+})();
+
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').catch(()=>{}); }
+</script>
+</body></html>
+
   <div class="container nav">
     <div class="brand">NXPHUONG</div>
     <nav>
